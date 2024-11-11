@@ -12,7 +12,7 @@ app.get(`/`, (request, response) => {
     return response.status(234).send(`Welcome to MERN stack tutorial`);
 })
 
-// Route to save a new book
+// Route to create a new book
 
 app.post(`/books`, async (request, response) => {
     try {
@@ -32,6 +32,21 @@ app.post(`/books`, async (request, response) => {
         // Send response with created book
         return response.status(201).send(book);
 
+    } catch (error) {
+        console.log(error.message);
+        return response.status(500).send({ message: error.message });
+    }
+});
+
+// Route to get all books
+
+app.get('/books', async (request, response) => {
+    try {
+        const books = await Book.find({});
+        return response.status(200).json({
+            count: books.length,
+            data : books
+        }); // Send the books in the response
     } catch (error) {
         console.log(error.message);
         return response.status(500).send({ message: error.message });
